@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+public class Actividad6{
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+        char caracter;
+        int veces, lineas;
+
+        System.out.println("****Imprime el caracter introducio X veces****");
+        System.out.println("");
+        System.out.println("Introduce el caracter que quieres imprimir");
+        caracter = input.nextLine().charAt(0);
+        System.out.println("Introduce el numero de veces que quieres que aparezca el caracter");
+        veces = input.nextInt();
+        input.nextLine();
+        System.out.println("Introduce el numero de lineas que quieres imprimir");
+        lineas = input.nextInt();
+        input.nextLine();
+
+        caracterVeces(caracter, veces, lineas);
+        //caracterLineas(caracter, lineas);
+
+        input.close();
+        }
+
+    public static void caracterVeces(char caracter, int veces, int lineas){
+
+        for (int i = veces; i>=0; i--){
+            System.out.print(caracter);
+            for (int j = lineas; j>=0; j--){
+                System.out.println(caracter);
+            }
+            
+        }
+
+    }
+
+    public static void caracterLineas(char caracter, int lineas){
+
+        for (int i = lineas; i>=0; i--){
+
+            System.out.println(caracter);
+        }
+    }
+}
