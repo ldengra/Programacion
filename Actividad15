@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+
+public class Actividad15{
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int opcion;
+        String menu;
+
+        menu = mostrarMenu();
+
+    }
+
+    public static String mostrarMenu(){
+        System.out.println("MENÚ PRINCIPAL");
+        System.out.println("==============");
+        System.out.println("1. Palabra más larga.");
+        System.out.println("2. Palabra más corta.");
+        System.out.println("3. Número de vocales.");
+        System.out.println("-----------------------------------------");
+        System.out.println("0. Salir");
+
+    }
+
+   /* public static String palabraMasLarga(int opcion1){
+
+    }
+
+    public static String palabraMasCorta(int opcion2){
+
+    }
+
+    public static int vocales(int opcion3){
+        
+    }*/
+}
