@@ -1,0 +1,52 @@
+import java.util.Scanner;
+
+
+public class Actividad13{
+    public enum Opcion {a, b, c, error} //he creado el enum, pero no he sabido como aplicarlo 
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String nombre;
+        char opcion;
+
+        System.out.println("******MENSAJE EN TU IDIOMA******");
+        System.out.println("");
+        System.out.println("Introduce el nombre al que quieras saludar!");
+        nombre = input.nextLine();
+        System.out.println("Ahora introduce la opción del idioma que desees:");
+        System.out.println("a) Valenciano.");
+        System.out.println("b) Castellano");
+        System.out.println("c) Inglés");
+        opcion = input.nextLine().charAt(0);//no se poner el toLowerCase();
+
+        idioma(opcion, nombre);
+        
+        
+    }
+
+    public static void idioma(char opcion, String nombre){
+        switch (opcion) {
+            case 'a':
+                System.out.println("Bon día " + nombre + ".");
+                
+                break;
+            
+            case 'b':
+                System.out.println("Buenos días " + nombre + ".");
+
+                break;
+
+            case 'c':
+                System.out.println("Good morning " + nombre + ".");
+
+                break;
+        
+            default:
+
+
+                break;
+        }
+
+
+    }
+}
