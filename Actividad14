@@ -1,0 +1,44 @@
+import java.util.Scanner;
+
+public class Actividad14{
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        long valor1, valor2;
+        
+        System.out.println("****NUMERO COMBINATORIO****");
+        System.out.println("");
+        System.out.println("Introduce el primer valor que quieres usar: ");
+        valor1 = input.nextInt();
+        input.nextLine();
+        System.out.println("Introduce el segundo valor que quieres usar: ");
+        valor2 = input.nextInt();
+        input.nextLine();
+
+        System.out.println(combinatorio(valor1, valor2));
+
+    }
+
+    public static long combinatorio(long m, long n) {
+        
+        long resta, multiplicacion, factorialM, factorialN,resultado;
+
+        factorialM = factorial(m);
+        factorialN = factorial(n);
+        resta = m - n;
+        resta = factorial(resta);
+        multiplicacion = factorialN * resta;
+        resultado = factorialM / multiplicacion;
+
+        return resultado;
+
+    }
+
+    public static long factorial (long numero) {
+        if (numero==0)
+          return 1;
+        else
+          return numero * factorial(numero-1);
+      }
+    
+    
+}
