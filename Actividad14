@@ -1,44 +1,48 @@
 import java.util.Scanner;
 
-public class Actividad14{
+public class Actividad13{
+    public enum Opcion {a, b, c, error} //he creado el enum, pero no he sabido como aplicarlo 
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        long valor1, valor2;
-        
-        System.out.println("****NUMERO COMBINATORIO****");
+        String nombre;
+        char opcion;
+
+        System.out.println("******MENSAJE EN TU IDIOMA******");
         System.out.println("");
-        System.out.println("Introduce el primer valor que quieres usar: ");
-        valor1 = input.nextInt();
-        input.nextLine();
-        System.out.println("Introduce el segundo valor que quieres usar: ");
-        valor2 = input.nextInt();
-        input.nextLine();
+        System.out.println("Introduce el nombre al que quieras saludar!");
+        nombre = input.nextLine();
+        System.out.println("Ahora introduce la opción del idioma que desees:");
+        System.out.println("a) Valenciano.");
+        System.out.println("b) Castellano");
+        System.out.println("c) Inglés");
+        opcion = input.nextLine().toLowerCase().charAt(0);//no se poner el toLowerCase();
+    
+        idioma(opcion, nombre);
 
-        System.out.println(combinatorio(valor1, valor2));
-
+        input.close();
     }
 
-    public static long combinatorio(long m, long n) {
-        
-        long resta, multiplicacion, factorialM, factorialN,resultado;
+    public static void idioma(char opcion, String nombre){
+        switch (opcion) {
+            case 'a':
+                System.out.println("Bon día " + nombre + ".");
 
-        factorialM = factorial(m);
-        factorialN = factorial(n);
-        resta = m - n;
-        resta = factorial(resta);
-        multiplicacion = factorialN * resta;
-        resultado = factorialM / multiplicacion;
+                break;
 
-        return resultado;
+            case 'b':
+                System.out.println("Buenos días " + nombre + ".");
 
+                break;
+
+            case 'c':
+                System.out.println("Good morning " + nombre + ".");
+
+                break;
+
+            default:
+
+                break;
+        }
     }
-
-    public static long factorial (long numero) {
-        if (numero==0)
-          return 1;
-        else
-          return numero * factorial(numero-1);
-      }
-    
-    
 }
