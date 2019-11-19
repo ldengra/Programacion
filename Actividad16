@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class Actividad16{
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String letra;
+        String numero;
+
+        System.out.println("Vamos a mostrar un contador en el que se sustituirá el numero que introduzcas por la letra que has introducido.");
+        System.out.println("Introduce la letra: ");
+        letra = input.nextLine();
+        System.out.println("Ahora introduce el numero");
+        numero = input.nextLine();
+
+        contador(letra, numero);
+
+    }
+    public static void contador(String letra, String numero){
+        
+        for (int i = 0; i <=9;i++)
+            for(int j = 0; j <= 9; j++)
+                for (int k = 0; k <=9; k++)
+                    for ( int l = 0; l <= 9; l++)
+                        System.out.println(String.valueOf(i+"-"+j+"-"+k+"-"+l).replaceAll(numero, letra));
+
+    }
+}
