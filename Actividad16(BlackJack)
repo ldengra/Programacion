@@ -1,0 +1,105 @@
+import java.util.Scanner;//Importamos el escáner.
+import java.util.Random;//Importamos la clase Random.
+import java.lang.Thread;//Importamos la clase Thread para el delay.
+public class Actividad16{
+    public static void main(String[] args) {
+        int dado;//Variable usada para almacenar el random, que actua como el dado.
+        int victoriasOrdenador = 0;//Variable usada para almacenar las victorias del ordenador.
+        int victoriasJugador = 0;//Variable usada para almacenar las victorias de jugador.
+        int puntosJugador = 0;//Variable que guarda los puntos del jugador en la ronda.
+        int puntosOrdenador = 0;//Variable que guarda los puntos del ordenador en la ronda.
+        final int LIMITE = 11;//Variable que guarda el límite, la hacemos final para que nadie pueda cambiarla en medio del código.
+        boolean plantarse = false;//Boolean usada para almacenar si el usuario quiere plantarse.
+        char confirmacion;//Variable usada para leer si quiere plantarse o no.
+        boolean error = false;//Variable usada para almacenar si ha introducido bien los caracteres S o N.
+        boolean juegaOrdenador = true;//Variable usada para decidir si el ordenador tira los dados o no.
+        Random rnd = new Random();//Declaramos el random.
+        Scanner lector = new Scanner (System.in);//Declaramos el escaner.
+        //Explicamos el juego al usuario.
+        System.out.println("Este es un juego que trata de llegar a 11 puntos.");
+        System.out.println("Vas a competir contra el ordenador.");
+        System.out.println("Si sacas 11 puntos ganas esa ronda automáticamente, sumando además una victoria adicional por bonificación..");
+        System.out.println("Si te pasas, pierdes automáticamente.");
+        System.out.println("En caso de plantarte, si tu rival saca una puntuación superior o igual a la tuya gana, si se pasa ganas tú y sumas una porra.");
+        System.out.println("El primero que llegue a 5 victorias ganará la partida.");
+        while (victoriasJugador < 5 && victoriasOrdenador < 5){//Mientras que las porras del jugador y las porras del ordenador sean menores que 5...
+            //Inicializamos las variables para que cuando entre al bucle otra vez empiece desde 0.
+            juegaOrdenador = true;
+            error = false;
+            puntosJugador = 0;
+            puntosOrdenador = 0;
+            plantarse = false;
+            System.out.println("Pulsa intro para continuar.");//Le pedimos al usuario que aprete intro para continuar.
+            lector.nextLine();//El usuario debe dar intro para continuar.
+            do {
+                dado = rnd.nextInt(6 - 1 + 1 ) + 1; //Simulamos la tirada de dado.
+                System.out.println("Has sacado: " + dado);//Imprimimos lo que ha sacado el dado.
+                puntosJugador = puntosJugador + dado;//Calculamos los puntos del jugador.
+                System.out.println("Tu puntuación total es: " + puntosJugador);//Mostramos los puntos del jugador.
+                if (puntosJugador > LIMITE){//Si los puntos del jugador es mayor al límite...
+                    plantarse = true;//Ponemos a true la boolean de la condición para que salga del bucle.
+                    juegaOrdenador = false;//Ponemos a true la variable boolean que posteriormente usaremos para entrar al bucle de la tirada de la máquina.
+                    victoriasOrdenador ++;//Sumamos uno a la porra del ordenador.
+                    System.out.println("Has perdido!!!!");//Enseñamos por pantalla que ha perdido.
+                }else if (puntosJugador == LIMITE){//Si los puntos del jugador es igual al límite...
+                    System.out.println("Enhorabuena, has ganado, además con bonificación!!");// Imprimimos por pantalla que ha ganado.
+                    victoriasJugador += 2;//Sumamos dos a la porra del jugador.
+                    plantarse = true;//Ponemos a true la boolean de la condición del bucle.
+                    juegaOrdenador = false;//Ponemos a true la variable boolean que posteriormente usaremos para entrar al bucle de la tirada de la máquina.
+                }else{//Si los puntos no son mayores o iguales al límite, es decir, son menores...
+                    do{
+                        System.out.println("Quieres tirar el dado otra vez? (Escribe si/no o s/n)");//Preguntamos si quiere tirar otra vez el dado.
+                        confirmacion = lector.nextLine().charAt(0);//Leemos la respuesta.
+                        if (confirmacion == 'N' || confirmacion == 'n'){//Si lo que ha introducido es N o n...
+                            plantarse = true;//Se pone a true la boolean para salir del bucle de tirar el dado.
+                            error = false;//Se pone a true la variable para salir del bucle de la pregunta del dado.
+                        }else if (confirmacion == 's' || confirmacion == 'S'){//Si lo que ha introducido es s o S...
+                            error = false;//Se pone a true la booleana que sirve de condición del bucle de la pregunta del dado.
+                        }else {//Si no es N, n, S o s...
+                            System.out.println("Error!!");//Imprimimos ERROR.
+                            error = true;//Ponemos la variable error a false para que vuelva a preguntar.
+                        }
+                    }while (error);//Si error es false preguntamos otra vez.
+                }
+            }while (!plantarse);//Si plantarse es false ejecutaremos el bucle.
+            while (juegaOrdenador){//Mientras que ganaOrdenador sea false...
+                //He usado estas sentencias para darle un delay a la tirada de la máquina.
+                try{
+                    Thread.sleep(1000);//1000 milisegundos de delay.
+                    dado = rnd.nextInt(6 - 1 + 1 ) + 1;//Simulamos la tirada del dado.
+                    System.out.println("Tu rival ha sacado " + dado);//Imprimimos el valor del dado.
+                }catch(InterruptedException ex){}
+                puntosOrdenador = puntosOrdenador + dado;//Calculamos los puntos totales.
+                if (puntosOrdenador >= puntosJugador && puntosOrdenador < LIMITE){//Si los puntos del rival son mayor o igual que los puntos del jugador y menor que el límite...
+                    System.out.println("Tu rival tiene: " + puntosOrdenador); //Enseñamos los puntos del ordenador.
+                    System.out.println("Has perdido!!"); //Imprimimos que ha perdido.
+                    juegaOrdenador = false;//Le damos true a la variable utilizada para las tiradas del ordenador.
+                    victoriasOrdenador ++;//Incrementamos la porra del ordenador.
+                }
+                if (puntosOrdenador > LIMITE){//Si los puntos del rival son mayores que el límite...
+                    juegaOrdenador = false;//La boolean usada como condición de bucle se pone a true.
+                    System.out.println("Tu rival se ha pasado de 11 puntos, has ganado!!");//Imprimimos que ha ganado.
+                    victoriasJugador ++;//Sumamos una porra al jugador.
+                }
+                if (puntosOrdenador == LIMITE){//Si los puntos del rival son igual al limite...
+                    juegaOrdenador = false;//La boolean de condicion para el bucle se pone a true.
+                    //Mostramod que ha perdido y que el rival consigue el doble de puntuación.
+                    System.out.println("Tu rival ha sacado la máxima puntuación, has perdido y tu rival suma 2 victorias.");
+                    victoriasOrdenador += 2;//Sumamos 2 a las porras del rival.
+                }
+            }
+        //Enseñamos las porras que llevan el usuario y el rival.
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("Tus victorias son: " + victoriasJugador);
+        System.out.println("Las victorias del rival son: " + victoriasOrdenador);
+        System.out.println("-------------------------------------------------------------");
+        }
+        //Si es jugador el que ha llegado a 5 imprimimos el mensaje de que ha gando, si no es el imprimimos que ha perdido.
+        if (victoriasJugador >= 5){
+            System.out.println("Has ganado la partida crack!!!");
+        }else{
+            System.out.println("Tu rival ha ganado la partida, sigue provando!!");
+        }
+        lector.close();//Cerramos el lector.
+    }
+}
