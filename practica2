@@ -1,0 +1,182 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class Practica2 {
+    static int puntuacionJugador = 0; //creo estas variables fuera para poder usarlas en varios metodos diferentes
+    static int puntuacionCPU = 0; // ""
+    static int puntuacionEmpate = 0; //""
+    static Scanner input;
+    //static Random r;
+    static final String PIEDRA = "\u001B[1;31mPiedra\u001B[0m";
+    static final String PAPEL = "\u001B[1;37mPapel\u001B[0m";
+    static final String TIJERAS = "\u001B[1;33mTijeras\u001B[0m";
+    static final String JUGADOR = "\u001B[1;32mJugador\u001B[0m";
+    static final String CPU = "\u001B[1;34mCPU\u001B[0m";
+
+    public static void main(String[] args) {
+        menu();
+
+    }
+    /**Este metodo es el menu principal del juego donde recogemos la opcion que queremos hacer */
+    public static void menu() {
+        input = new Scanner(System.in);
+        String opcion;
+        boolean validacion = false; //usamos la boolean para controlar la salida del do while y que salga cuando nosotros queramos
+
+        do {
+            System.out.println("");
+            System.out.println("===========================");
+            System.out.println("  \u001B[1;31m PIEDRA \u001B[0m\u001B[1;37m PAPEL \u001B[0m\u001B[1;33m TIJERAS  \u001B[0m");
+            System.out.println("===========================");
+            System.out.println("1. Nueva Partida ...");
+            System.out.println("2. Mostrar puntuaciones ...");
+            System.out.println("---------------------------");
+            System.out.println("0. Salir");
+            System.out.println("");
+            System.out.println("Elige una opción: ");
+            opcion = input.nextLine();
+
+            if (opcion.equals("1") || opcion.equals("2") || opcion.equals("0")) {
+                switch (opcion) {
+                    case "1":
+                        nuevaPartida();
+                        break;
+                    case "2":
+                        mostrarPuntuaciones();
+                        break;
+                    case "0":
+                        System.out.println("\u001B[1;37;40m GRACIAS POR JUGAR \u001B[0m");
+                        validacion = true;
+                        break;
+
+                    default: //si pulsamos cualquier otro boton, nos dira que la opcion es desconocida
+                        System.out.println("");
+                        System.out.println("\u001B[1;31;40m Opción desconocida, inténtelo de nuevo. \u001B[0m");
+                        break;
+                }
+            } else {
+                System.err.println("Opcion incorrecta");
+                validacion = false;
+            }
+        } while (!validacion);
+
+    }
+    /**Es la opcion numero 1, una nueva partida, en este metodo es donde se jugara la partida y en donde añadimos los puntos al contador */
+    public static void nuevaPartida() {
+        String eleccion;
+        int opcionBot = 0;
+
+
+
+        input = new Scanner(System.in);
+
+        System.out.println("");
+        System.out.println("***********");
+        System.out.println("*  ELIGE  *");
+        System.out.println("***********");
+        System.out.println("1." + PIEDRA);
+        System.out.println("2." + PAPEL);
+        System.out.println("3." + TIJERAS);
+
+        eleccion = input.nextLine();
+        opcionBot = eleccionBot(opcionBot);
+        if (eleccion.equals("1") || eleccion.equals("2") || eleccion.equals("3")) {
+
+            if (eleccion.equals("1") && opcionBot == 1) { //uso el if anidado para cada una de las opciones, en los demas if, se hace lo mismo pero con distintas condiciones
+                puntuacionEmpate += 1; //sumamos al contador correspondiente quien gana
+                printResultado(PIEDRA, PIEDRA, "EMPATE");
+
+            } else if (eleccion.equals("1") && opcionBot == 2) {
+                puntuacionCPU += 1;
+                printResultado(PIEDRA, PAPEL, "cGana");
+
+            } else if (eleccion.equals("1") && opcionBot == 3) {
+                puntuacionJugador += 1;
+                printResultado(PIEDRA, TIJERAS, "jGana");
+
+            } else if (eleccion.equals("2") && opcionBot == 1) {
+                puntuacionJugador += 1;
+                printResultado(PAPEL, PIEDRA, "jGana");
+
+            } else if (eleccion.equals("2") && opcionBot == 2) {
+                puntuacionEmpate += 1;
+                printResultado(PAPEL, PAPEL, "EMPATE");
+
+            } else if (eleccion.equals("2") && opcionBot == 3) {
+                puntuacionCPU += 1;
+                printResultado(PAPEL, TIJERAS, "cGana");
+
+            } else if (eleccion.equals("3") && opcionBot == 1) {
+                puntuacionCPU += 1;
+                printResultado(TIJERAS, PIEDRA, "cGana");
+
+            } else if (eleccion.equals("3") && opcionBot == 2) {
+                puntuacionJugador += 1;
+                printResultado(TIJERAS, PAPEL, "jGana");
+
+            } else if (eleccion.equals("3") && opcionBot == 3) {
+                puntuacionEmpate += 1;
+                printResultado(TIJERAS, TIJERAS, "EMPATE");
+
+            } else {
+                System.out.println("\u001B[1;31;40m Opción incorrecta \u001B[0m");
+            }
+        } else {
+            System.err.println("\u001B[1;31;40m Opción incorrecta \u001B[0m");
+        }
+
+    }
+    /**
+     * Este metodo es para generar la opcion del bot, para eso hacemos una llamada a mi archivo lib que es donde 
+     * @param opcionBot damos valor aleatorio a esta variable que es puede ser 1,2,3 que son piedra papel o tijeras
+     * @return devolvemos el valor generado
+     */
+    public static int eleccionBot(int opcionBot) {
+        opcionBot = Lib.aleatorio(1, 3);
+
+        return opcionBot;
+    }
+
+    public static void mostrarPuntuaciones() {
+
+        System.out.println("***** PUNTUACIONES *****");
+        System.out.printf("Victorias \u001B[1;32mJugador\u001B[0m:%6s\n", puntuacionJugador);
+        System.out.printf("Victorias \u001B[1;34mCPU\u001B[0m:%10s\n", puntuacionCPU);
+        System.out.printf("Empates:%16s\n", puntuacionEmpate);
+
+        resetear();
+    }
+
+    /**
+     * Usamos el metodo para reducir los ifs del juego e imprimimos por pantalla
+     * @param eleccion eleccion del jugador
+     * @param eleccionBot eleccion de la cpu
+     * @param resultado es el resultado que le pasamos para que haga comprobaciones
+     */
+    public static void printResultado(String eleccion, String eleccionBot, String resultado) {
+
+        System.out.println(JUGADOR + " elige " + eleccion);
+        System.out.println(CPU + " ha elegido " + eleccionBot);
+        System.out.println("");
+
+        if (resultado.equals("EMPATE")) {
+            System.out.println(resultado + "!!");
+            System.out.println(eleccion + " empata con " + eleccionBot);
+        } else if (resultado.equals("jGana")) {
+            System.out.println(JUGADOR + " gana!!");
+            System.out.println(eleccion + " gana a " + eleccionBot);
+        } else {
+            System.out.println(CPU + " gana!!");
+            System.out.println(eleccionBot + " gana a " + eleccion);
+        }
+        resetear();
+
+    }
+    public static void resetear() {
+        System.out.println("");
+        System.out.println("Pulsa INTRO para continuar ...");
+        input.nextLine();
+        Lib.limpiarPantalla();
+
+    }
+}
